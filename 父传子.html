@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <child :msg="msg"></child>
+  </div>
+  <script src="./libs/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el:'#app',
+      data(){
+        return{
+         msg:'我是父组件的值'
+        }
+      },
+      // 使用components创建子组件
+      components:{
+        'child':{//child是子组件的名称
+          props:['msg'],//使用props自定义一个子组件的属性，将父组件的data中的值传递给该属性
+          // 在template中如果有多个标签，必须使用根标签
+          // 当子组件接收到父组件传递过来的值，就可以直接在子组件自己的模板中使用
+          template:`
+          <div>
+            <p>我是子组件</p>
+            <ul>
+              <li>{{msg}}</li>
+             </ul>
+          </div>
+          `
+        }
+      }
+    })
+  </script>
+</body>
+</html>

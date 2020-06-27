@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <child @it_click="getChildData()"></child>
+  </div>
+  <script src="./libs/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el:'#app',
+      data(){
+        return{}
+      },
+      methods:{
+        // 父组件中触发自定义事件的函数，接收传递过来的参数
+        getChildData(value){
+          console.log('接收子组件传递的值')
+          console.log(value)
+        }
+      },
+      components:{
+        // 创建一个叫child的子组件，子组件有自己的数据
+        'child':{
+          data(){
+            return{
+              msg:'哈哈哈'
+            }
+          },
+          methods:{
+             handle(){
+               this.$emit('it_click',this.msg)
+             }
+          },
+          //子组件的内容是一个按钮，点击按钮的时候会触发handle的事件，将子组件的自定义事件名称it_click传入进去
+          template:`
+            <button @click="handle">我是子组件向父组件传值</button>
+          `
+        }
+      }
+    })
+  </script>
+</body>
+</html>

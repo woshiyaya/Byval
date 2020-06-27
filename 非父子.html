@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 假设是第一个子元素向第二个子元素传值 -->
+   <div id="app">
+     <one @change="changed()"></one>
+     <two ></two>
+   </div>
+   <script src="./libs/vue.js"></script>
+   <script>
+      var eventBus=new Vue()
+      var vm = new Vue({
+        el:'#app',
+        data(){
+          return{}
+        },
+        components:{
+          'one':{
+            template:`
+            <button @click="dev">我是第一个子元素</button>
+            `,
+            data(){
+              return{
+                msg:'我是第一个子元素的数据'
+              }
+            },
+            methods:{
+              dev(){//兄弟组件监听相同的一个事件change，将第一个元素的数据以参数的形式传入
+                eventBus.$emit('change',this.msg)
+              }
+            }
+          },
+          'two':{
+            template:`
+             <div>{{value}}</div>
+            `,
+            data(){
+              return{
+                value:''
+              }
+            },
+            created(){//通过事件处理函数将第一个元素传递过来的参数赋值给第二个参数的数据
+              eventBus.$on('change',(val)=>{
+                this.value = val
+              })
+            }
+          }
+        }
+      })
+
+   </script>
+</body>
+</html>
